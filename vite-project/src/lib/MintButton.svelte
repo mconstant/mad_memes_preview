@@ -9,7 +9,7 @@
 
   async function fetchData() {
     try {
-      const response = await fetch('public/nfts.json');
+      const response = await fetch('nfts.json');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
