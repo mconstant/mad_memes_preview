@@ -52,11 +52,11 @@
       content.appendChild(name);
 
       const rarity_number = document.createElement('p');
-      rarity_number.textContent = `Rarity: ${randomItem.rarity_number}`;
+      rarity_number.textContent = `Rarity Number: ${randomItem.rarity_number}`;
       content.appendChild(rarity_number);
 
       const rareness_class = document.createElement('p');
-      rarity_number.textContent = `Rarity: ${randomItem.rareness_class}`;
+      rareness_class.textContent = `Rareness Class: ${randomItem.rareness_class}`;
       content.appendChild(rareness_class);
 
       const closeButton = document.createElement('button');
