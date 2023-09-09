@@ -51,9 +51,13 @@
       name.textContent = `Name: ${randomItem.name}`;
       content.appendChild(name);
 
-      const rarity = document.createElement('p');
-      rarity.textContent = `Rarity: ${randomItem.rarity}`;
-      content.appendChild(rarity);
+      const rarity_number = document.createElement('p');
+      rarity_number.textContent = `Rarity: ${randomItem.rarity_number}`;
+      content.appendChild(rarity_number);
+
+      const rareness_class = document.createElement('p');
+      rarity_number.textContent = `Rarity: ${randomItem.rareness_class}`;
+      content.appendChild(rareness_class);
 
       const closeButton = document.createElement('button');
       closeButton.textContent = 'Close';

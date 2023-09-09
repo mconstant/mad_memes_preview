@@ -40,7 +40,7 @@ num_rows = worksheet.num_rows
 end
 
 nft_json = nfts.map.each_with_index do |nft, idx|
-  {id: idx+1, name: "Mad Meme ##{idx+1}", image: nft["Attachments"], rarity: nft["Rarity (1 is rarest)"]}
+  {id: idx+1, name: "Mad Meme ##{idx+1}", image: nft["Attachments"], rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
 end
 
 File.open("../vite-project/nfts.json", "w+") do |f|
