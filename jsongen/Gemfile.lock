@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/dalton-cole/pinata-ruby
+  revision: c821723d67c615bad25203aba76cee8e21eb8435
+  specs:
+    pinata (0.1.0)
+      mime-types (~> 3.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -8,6 +15,7 @@ GEM
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     declarative (0.0.20)
+    dotenv (2.8.1)
     faraday (1.10.3)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -64,6 +72,9 @@ GEM
     jwt (2.7.1)
     memoist (0.16.2)
     method_source (1.0.0)
+    mime-types (3.5.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2023.0808)
     mini_mime (1.1.5)
     multi_json (1.15.0)
     multipart-post (2.3.0)
@@ -103,7 +114,9 @@ PLATFORMS
 
 DEPENDENCIES
   debug
+  dotenv
   google_drive (~> 3.0)
+  pinata!
   pry
 
 BUNDLED WITH

@@ -5,3 +5,6 @@ source "https://rubygems.org"
 gem "google_drive", '~> 3.0'
 gem "pry"
 gem "debug", require: false
+gem "pinata", git: 'https://github.com/dalton-cole/pinata-ruby'
+gem "dotenv"
+gem "debug"

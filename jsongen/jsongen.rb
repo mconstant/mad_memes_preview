@@ -1,6 +1,11 @@
 require 'bundler'
 require 'json'
+require 'dotenv/load'
+
 Bundler.require
+
+Pinata.api_key = ENV["PINATA_API_KEY"]
+Pinata.secret_api_key = ENV["PINATA_SECRET_KEY"]
 
 puts "getting Google Drive Session"
 begin
@@ -47,3 +52,6 @@ File.open("../vite-project/nfts.json", "w+") do |f|
   f.write(JSON.pretty_generate(nft_json))
 end
 
+resp = Pinata::Pin.pin_file('../vite-project/nfts.json')
+
+puts resp
