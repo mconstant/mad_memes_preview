@@ -1,2 +1,4 @@
 google_sheets.json
 .env
+memes_processed/*
+memes_raw/*

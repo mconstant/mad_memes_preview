@@ -5,5 +5,7 @@ pkgs.mkShell {
     pkgs.nodejs
     pkgs.imagemagick
     pkgs.jq
+    pkgs.ffmpeg
+    pkgs.libwebp
   ];
 }

@@ -44,10 +44,43 @@ num_rows = worksheet.num_rows
 
 end
 
-
+nfts = nfts.reject do |nft|
+  extension = nft["Attachments"].split('.').last.chomp
+  puts "Reject extension is #{extension}"
+  (extension == "mp4") || (extension == "webm")
+end
 
 nft_json = nfts.map.each_with_index do |nft, idx|
   {id: idx+1, name: "Mad Meme ##{idx+1}", image: nft["Attachments"], rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
+end
+
+File.open("../vite-project/nfts.json", "w+") do |f|
+  f.write(JSON.pretty_generate(nft_json))
+end
+
+nft_json = nfts.map.each_with_index do |nft, idx|
+  url = `cat ../vite-project/nfts.json | jq -r .[#{idx}].image`
+  extension = url.split('.').last.chomp
+  cmd = "curl #{url.chomp} --output memes_raw/meme_#{idx+1}.#{extension}"
+  `#{cmd}`
+  # `curl #{url} --output memes_raw/meme_#{idx+1}.#{extension}`
+  #`curl $(cat nfts.json | jq -r .[${idx}].image) -O memes_raw/meme_1.`
+  #{id: idx+1, name: "Mad Meme ##{idx+1}", image: nft["Attachments"], rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
+  puts "attempting to label, resize and frame memes_raw/meme_#{idx+1}.#{extension}"
+  cmd2 = "./frame.sh memes_raw/meme_#{idx+1}.#{extension} DejaVu-Sans 24 \"Mad Meme ##{idx+1}: #{nft['Rareness Class']}\" frame.png memes_processed/meme_#{idx+1}_season_1.#{extension}"
+  # puts cmd2
+  `#{cmd2}`
+  resp = Pinata::Pin.pin_file("memes_processed/meme_#{idx+1}_season_1.#{extension}")
+  pinata_image_link = "https://magenta-uninterested-barnacle-460.mypinata.cloud/ipfs/#{resp["IpfsHash"]}"
+  puts "Link to uploaded image file on pinata #{pinata_image_link}"
+  if pinata_image_link
+    {id: idx+1, name: "Mad Meme ##{idx+1}", image: pinata_image_link, rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
+  else
+    File.open("imagemagick_errors.log", "a") do |f|
+      f.puts "Error processing #{nft["Attachments"]}"
+    end
+    {id: idx+1, name: "Mad Meme ##{idx+1}", image: nft["Attachments"], rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
+  end
 end
 
 File.open("../vite-project/nfts.json", "w+") do |f|
