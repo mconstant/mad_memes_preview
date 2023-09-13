@@ -7,11 +7,12 @@ set -o pipefail
 IFS=$'\n\t'
 
 sh <(curl -L https://nixos.org/nix/install) --no-daemon
-achmod +x secretcli-Linux
-sudo mv secretcli-Linux /usr/local/bin/secretcli
+#wget https://github.com/scrtlabs/SecretNetwork/releases/latest/download/secretcli-Linux
+#chmod +x secretcli-Linux
+#sudo mv secretcli-Linux /usr/local/bin/secretcli
 . ~/.nix-profile/etc/profile.d/nix.sh
 nix-shell
-rustup default stable
-rustup target add wasm32-unknown-unknown
-rustup install nightly
-rustup target add wasm32-unknown-unknown --toolchain nightly
+#rustup default stable
+#rustup target add wasm32-unknown-unknown
+#rustup install nightly
+#rustup target add wasm32-unknown-unknown --toolchain nightly
