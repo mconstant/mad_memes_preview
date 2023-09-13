@@ -44,6 +44,8 @@ num_rows = worksheet.num_rows
 
 end
 
+
+
 nft_json = nfts.map.each_with_index do |nft, idx|
   {id: idx+1, name: "Mad Meme ##{idx+1}", image: nft["Attachments"], rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
 end
@@ -55,3 +57,5 @@ end
 resp = Pinata::Pin.pin_file('../vite-project/nfts.json')
 
 puts resp
+
+puts "Link to uploaded File https://magenta-uninterested-barnacle-460.mypinata.cloud/ipfs/#{resp["IpfsHash"]}"
