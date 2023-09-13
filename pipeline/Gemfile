@@ -8,3 +8,4 @@ gem "debug", require: false
 gem "pinata", git: 'https://github.com/dalton-cole/pinata-ruby'
 gem "dotenv"
 gem "debug"
+gem "httparty"

@@ -3,9 +3,12 @@ require 'json'
 require 'dotenv/load'
 
 Bundler.require
+include HTTParty
 
-Pinata.api_key = ENV["PINATA_API_KEY"]
-Pinata.secret_api_key = ENV["PINATA_SECRET_KEY"]
+nft_storage_api_endpoint="https://api.nft.storage/upload"
+
+# Pinata.api_key = ENV["PINATA_API_KEY"]
+# Pinata.secret_api_key = ENV["PINATA_SECRET_KEY"]
 
 puts "getting Google Drive Session"
 begin
@@ -70,11 +73,11 @@ nft_json = nfts.map.each_with_index do |nft, idx|
   cmd2 = "./frame.sh memes_raw/meme_#{idx+1}.#{extension} DejaVu-Sans 24 \"Mad Meme ##{idx+1}: #{nft['Rareness Class']}\" frame.png memes_processed/meme_#{idx+1}_season_1.#{extension}"
   # puts cmd2
   `#{cmd2}`
-  resp = Pinata::Pin.pin_file("memes_processed/meme_#{idx+1}_season_1.#{extension}")
-  pinata_image_link = "https://magenta-uninterested-barnacle-460.mypinata.cloud/ipfs/#{resp["IpfsHash"]}"
-  puts "Link to uploaded image file on pinata #{pinata_image_link}"
-  if pinata_image_link
-    {id: idx+1, name: "Mad Meme ##{idx+1}", image: pinata_image_link, rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
+  cid = `curl -s -F file=@memes_processed/meme_#{idx+1}_season_1.#{extension} -H "Authorization: Bearer #{ENV['NFT_STORAGE_KEY']}" https://api.nft.storage/upload | jq -r .value.cid`.chomp
+  nft_storage_link = "https://ipfs.io/ipfs/#{cid}/meme_#{idx+1}_season_1.#{extension}"
+  puts "Link to uploaded image file on ipfs #{nft_storage_link}"
+  if nft_storage_link
+    {id: idx+1, name: "Mad Meme ##{idx+1}", image: nft_storage_link, rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
   else
     File.open("imagemagick_errors.log", "a") do |f|
       f.puts "Error processing #{nft["Attachments"]}"
