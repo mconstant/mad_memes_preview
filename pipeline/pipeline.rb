@@ -69,12 +69,13 @@ nft_json = nfts.map.each_with_index do |nft, idx|
   # `curl #{url} --output memes_raw/meme_#{idx+1}.#{extension}`
   #`curl $(cat nfts.json | jq -r .[${idx}].image) -O memes_raw/meme_1.`
   #{id: idx+1, name: "Mad Meme ##{idx+1}", image: nft["Attachments"], rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
-  puts "attempting to label, resize and frame memes_raw/meme_#{idx+1}.#{extension}"
-  cmd2 = "./frame.sh memes_raw/meme_#{idx+1}.#{extension} DejaVu-Sans 24 \"Mad Meme ##{idx+1}: #{nft['Rareness Class']}\" frame.png memes_processed/meme_#{idx+1}_season_1.#{extension}"
+  puts "attempting to label, resize and frame memes_raw/meme_#{idx+1}.#{extension} with rareness #{nft["Rareness Class"]}"
+  cmd2 = "./frame.sh memes_raw/meme_#{idx+1}.#{extension} DejaVu-Sans 24 \"Mad Meme ##{idx+1}: #{nft['Rareness Class']}\" frame.png memes_processed/meme_#{idx+1}_season_1.png #{nft["Rareness Class"]} #{idx+1}"
   # puts cmd2
+  puts cmd2
   `#{cmd2}`
-  cid = `curl -s -F file=@memes_processed/meme_#{idx+1}_season_1.#{extension} -H "Authorization: Bearer #{ENV['NFT_STORAGE_KEY']}" https://api.nft.storage/upload | jq -r .value.cid`.chomp
-  nft_storage_link = "https://ipfs.io/ipfs/#{cid}/meme_#{idx+1}_season_1.#{extension}"
+  cid = `curl -s -F file=@memes_processed/meme_#{idx+1}_season_1.png -H "Authorization: Bearer #{ENV['NFT_STORAGE_KEY']}" https://api.nft.storage/upload | jq -r .value.cid`.chomp 
+  nft_storage_link = "https://ipfs.io/ipfs/#{cid}/meme_#{idx+1}_season_1.png"
   puts "Link to uploaded image file on ipfs #{nft_storage_link}"
   if nft_storage_link
     {id: idx+1, name: "Mad Meme ##{idx+1}", image: nft_storage_link, rarity_number: nft["Rarity Number"], rareness_class: nft["Rareness Class"]}
@@ -90,8 +91,8 @@ File.open("../vite-project/nfts.json", "w+") do |f|
   f.write(JSON.pretty_generate(nft_json))
 end
 
-resp = Pinata::Pin.pin_file('../vite-project/nfts.json')
+cid = `curl -s -F file=@../vite-project/nfts.json -H "Authorization: Bearer #{ENV['NFT_STORAGE_KEY']}" https://api.nft.storage/upload | jq -r .value.cid`.chomp 
 
-puts resp
+nft_storage_link = "https://ipfs.io/ipfs/#{cid}/nfts.json"
 
-puts "Link to uploaded File https://magenta-uninterested-barnacle-460.mypinata.cloud/ipfs/#{resp["IpfsHash"]}"
+puts "nfts.json Link to uploaded File #{nft_storage_link}"
