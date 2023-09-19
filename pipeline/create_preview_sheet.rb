@@ -45,7 +45,6 @@ nfts.each do |nft|
   worksheet[row, 7]="[{ \"url\": \"#{image}\", \"extension\": \"#{extension}\" }]"
   worksheet[row, 8]="[ { \"name\": \"#{nft["name"]}\", \"rarity_number\": \"#{nft["rarity_number"]}\", \"rareness_class\": \"#{nft["rareness_class"]}\" } ]"
   worksheet[row, 11]=royalty_addresses_str
-  break
   row += 1
 end
 
