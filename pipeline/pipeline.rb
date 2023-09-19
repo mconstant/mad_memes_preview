@@ -27,7 +27,7 @@ puts worksheet.title
 nfts = []
 headers = worksheet.rows[0]
 num_rows = worksheet.num_rows
-(2..(5)).each do |row_index|
+(2..(num_rows)).each do |row_index|
   begin
     hsh={}
     headers.each.with_index do |header, idx|
