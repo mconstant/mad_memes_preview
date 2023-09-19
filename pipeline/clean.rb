@@ -9,5 +9,5 @@ cids = JSON.parse(`curl -G -d "limit=1000" -H "Authorization: Bearer #{ENV['NFT_
 puts "#{cids.count} cids found"
 cids.each do |cid|
     puts `curl -X DELETE -H "Authorization: Bearer #{ENV['NFT_STORAGE_KEY']}" https://api.nft.storage/#{cid}`
-    sleep 1
+    sleep 0.6
 end
