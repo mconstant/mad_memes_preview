@@ -7,5 +7,6 @@ pkgs.mkShell {
     pkgs.jq
     pkgs.ffmpeg
     pkgs.libwebp
+    pkgs.libyaml
   ];
 }
