@@ -9,4 +9,7 @@ fonts:
 pipeline:
 	cd pipeline && bundle && time bundle exec ruby pipeline.ruby
 
-all: tools fonts pipeline
+update_previews:
+	git stash && git add vite_project/nfts.json && git commit -m "update previews" && git push
+
+all: tools fonts pipeline update_previews
