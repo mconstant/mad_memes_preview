@@ -12,4 +12,4 @@ pipeline:
 update_previews:
 	git stash && git add vite_project/nfts.json && git commit -m "update previews" && git push
 
-all: tools fonts pipeline update_previews
+update: fonts pipeline update_previews
